@@ -57,5 +57,6 @@
 
     <modules>
         <module>employee_management_api</module>
+        <module>app_employee_management_using_angular</module>
     </modules>
 </project>
