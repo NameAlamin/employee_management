@@ -16,7 +16,7 @@ export class AppComponent implements OnInit{
   constructor(private employeeService: EmployeeService){} // inject employeeService Class
 
   public employees: Employee[] | undefined;
-
+  public editEmployee: Employee | null | undefined;
 
   ngOnInit(): void {
     this.getEmployees();
@@ -29,9 +29,10 @@ export class AppComponent implements OnInit{
     );
   }
 
+  // Add Employee Functionality
   public onAddEmployee(addForm: NgForm): void{
     // @ts-ignore
-    document.getElementById('employee-closs-btn').click();
+    document.getElementById('employee-btn-close').click(); // this line need for close modal after click submit button
     this.employeeService.addEmployee(addForm.value).subscribe(
       (response:Employee) => {
         console.log(response);
@@ -42,10 +43,26 @@ export class AppComponent implements OnInit{
     );
   }
 
+  // Edit Employee Functionality
+  public onUpdateEmployee(employee: Employee): void {
+    // @ts-ignore
+    document.getElementById('edit-btn-close').click(); // this line need for close modal after click submit button
+    this.employeeService.updateEmployee(employee).subscribe(
+      (response: Employee) => {
+        console.log(response);
+        this.getEmployees();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  // Delete Employee
+
 
 
   // this method use for action add,edit and delete button
-
   public onOpenModal(employee: Employee|null, mode: string): void{
     const container = document.getElementById('main_container');
     const button = document.createElement('button');
@@ -57,6 +74,7 @@ export class AppComponent implements OnInit{
       button.setAttribute('data-target','#addEmployeeModal');
     }
     if(mode === 'edit'){
+      this.editEmployee = employee;
       button.setAttribute('data-target','#updateEmployeeModal');
     }
     if(mode === 'delete'){

@@ -94,7 +94,7 @@
                 <input type="text" name="imageUrl" ngModel class="form-control" id="imageUrl1" placeholder="Image URL" required>
               </div>
               <div class="modal-footer">
-                <button type="button" id="employee-closs-btn" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="employee-btn-close" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary" >Save changes</button>
               </div>
             </form>
@@ -108,36 +108,41 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="updateEmployeeModalLabel">Add Employee</h5>
+            <h5 class="modal-title" id="updateEmployeeModalLabel">Edit Employee {{editEmployee?.name}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form>
+            <form #editForm="ngForm">
               <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" name="name" class="form-control" id="name" placeholder="Name" required>
+                <input type="text" name="name" ngModel="{{editEmployee?.name}}" class="form-control" id="name" placeholder="Name" required>
               </div>
+
+              <input type="hidden" ngModel="{{editEmployee?.id}}" name="id" class="form-control" id="id" placeholder="id">
+              <input type="hidden" ngModel="{{editEmployee?.employeeCode}}" name="userCode" class="form-control" id="userCode" placeholder="employee code">
+<!--               this 2 hidden input very important. karon na hole hibernet confused hoiye jaiteche-->
+
               <div class="form-group">
                 <label for="email">Email Address</label>
-                <input type="email" name="email" class="form-control" id="email" placeholder="Email" required>
+                <input type="email" name="email" ngModel="{{editEmployee?.email}}" class="form-control" id="email" placeholder="Email" required>
               </div>
               <div class="form-group">
                 <label for="phone">Job title</label>
-                <input type="text" name="jobTitle" class="form-control" id="jobTile" placeholder="Job title" required>
+                <input type="text" name="jobTitle" ngModel="{{editEmployee?.jobTitle}}" class="form-control" id="jobTile" placeholder="Job title" required>
               </div>
               <div class="form-group">
                 <label for="phone">Phone</label>
-                <input type="text"  name="phone" class="form-control" id="phone" placeholder="Phone" required>
+                <input type="text"  name="phone" ngModel="{{editEmployee?.phone}}" class="form-control" id="phone" placeholder="Phone" required>
               </div>
               <div class="form-group">
                 <label for="phone">Image URL</label>
-                <input type="text" name="imageUrl" class="form-control" id="imageUrl" placeholder="Image URL" required>
+                <input type="text" name="imageUrl" ngModel="{{editEmployee?.imageUrl}}" class="form-control" id="imageUrl" placeholder="Image URL" required>
               </div>
               <div class="modal-footer">
-                <button type="button" id="" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" >Save changes</button>
+                <button type="button" id="edit-btn-close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button (click)="onUpdateEmployee(editForm.value)" class="btn btn-primary" >Save changes</button>
               </div>
             </form>
           </div>
@@ -170,12 +175,13 @@
 
 
 <!-- Notification for no employees -->
-<div *ngIf="employees?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
-  <div class="alert alert-info" role="alert">
-    <br><br><br><br><br><br><br><br><br><br><br>
-    <h4 class="alert-heading">NO EMPLOYEES!</h4>
-    <p>No Employees were found.</p>
-  </div>
-</div>
+<!--<div *ngIf="employees?.length == 0" class="col-lg-12 col-md-12 col-xl-12">-->
+<!--  <div class="alert alert-info" role="alert">-->
+<!--    <br><br><br><br><br><br><br><br><br><br><br>-->
+<!--    <h4 class="alert-heading">NO EMPLOYEES!</h4>-->
+<!--    <p>No Employees were found.</p>-->
+<!--  </div>-->
+<!--</div>-->
 
 <!--<router-outlet></router-outlet>-->
+</div>
