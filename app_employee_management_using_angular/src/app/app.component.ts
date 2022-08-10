@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {EmployeeService} from "./employee.service";
 import {Employee} from "./employee";
 import {HttpErrorResponse} from "@angular/common/http";
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,11 @@ export class AppComponent implements OnInit{
 
   public employees: Employee[] | undefined;
 
+
+  ngOnInit(): void {
+    this.getEmployees();
+  }
+
   public getEmployees(): void{
     this.employeeService.getEmployees().subscribe(
       (response) => {this.employees = response},
@@ -23,9 +29,6 @@ export class AppComponent implements OnInit{
     );
   }
 
-  ngOnInit(): void {
-    this.getEmployees();
-  }
 
 
   // this method use for action add,edit and delete button
