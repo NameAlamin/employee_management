@@ -29,6 +29,19 @@ export class AppComponent implements OnInit{
     );
   }
 
+  public onAddEmployee(addForm: NgForm): void{
+    // @ts-ignore
+    document.getElementById('employee-closs-btn').click();
+    this.employeeService.addEmployee(addForm.value).subscribe(
+      (response:Employee) => {
+        console.log(response);
+        this.getEmployees();
+        addForm.reset();
+      },
+    (error: HttpErrorResponse) => {alert(error.message)}
+    );
+  }
+
 
 
   // this method use for action add,edit and delete button
