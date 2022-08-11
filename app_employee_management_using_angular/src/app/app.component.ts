@@ -15,8 +15,9 @@ export class AppComponent implements OnInit{
 
   constructor(private employeeService: EmployeeService){} // inject employeeService Class
 
-  public employees: Employee[] | undefined;
-  public editEmployee: Employee | null | undefined;
+  public employees?: Employee[];
+  public editEmployee?: Employee | null;
+  public deleteEmployee?: Employee | null;
 
   ngOnInit(): void {
     this.getEmployees();
@@ -31,8 +32,7 @@ export class AppComponent implements OnInit{
 
   // Add Employee Functionality
   public onAddEmployee(addForm: NgForm): void{
-    // @ts-ignore
-    document.getElementById('employee-btn-close').click(); // this line need for close modal after click submit button
+    document.getElementById('employee-btn-close')?.click(); // this line need for close modal after click submit button
     this.employeeService.addEmployee(addForm.value).subscribe(
       (response:Employee) => {
         console.log(response);
@@ -45,8 +45,7 @@ export class AppComponent implements OnInit{
 
   // Edit Employee Functionality
   public onUpdateEmployee(employee: Employee): void {
-    // @ts-ignore
-    document.getElementById('edit-btn-close').click(); // this line need for close modal after click submit button
+    document.getElementById('edit-btn-close')?.click(); // this line need for close modal after click submit button
     this.employeeService.updateEmployee(employee).subscribe(
       (response: Employee) => {
         console.log(response);
@@ -59,11 +58,21 @@ export class AppComponent implements OnInit{
   }
 
   // Delete Employee
-
+  onDeleteEmployee(employeeId: number): void{
+    this.employeeService.deleteEmployee(employeeId).subscribe(
+      (response: void) => {
+        console.log(response);
+        this.getEmployees();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
 
 
   // this method use for action add,edit and delete button
-  public onOpenModal(employee: Employee|null, mode: string): void{
+  public onOpenModal(employee: Employee | null, mode: string): void{
     const container = document.getElementById('main_container');
     const button = document.createElement('button');
     button.type = 'button';
@@ -78,10 +87,10 @@ export class AppComponent implements OnInit{
       button.setAttribute('data-target','#updateEmployeeModal');
     }
     if(mode === 'delete'){
+      this.deleteEmployee = employee;
       button.setAttribute('data-target','#deleteEmployeeModal');
     }
-    // @ts-ignore
-    container.appendChild(button);
+    container?.appendChild(button);
     button.click();
 
   }
